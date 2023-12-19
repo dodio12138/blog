@@ -1,10 +1,10 @@
-<!--
- * @Author: dodio12138 1159715241@qq.com
- * @Date: 2023-08-15 13:30:45
- * @LastEditors: dodio12138 1159715241@qq.com
- * @LastEditTime: 2023-08-15 19:07:50
- * @FilePath: \undefinedf:\github\dodio12138\README.md
--->
+---
+hide:
+  - navigation
+  - toc
+title: AboutMe
+
+---
 # 👋Hi, here is Levy Zhang!
 
 ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.bilibili.com%2Fx%2Frelation%2Fstat%3Fvmid%3D12027943%26jsonp%3Djsonp&query=%24.data.follower&&style=for-the-badge&logo=bilibili&logoColor=%2300A1D6&label=bilibili&link=https://space.bilibili.com/12027943)
