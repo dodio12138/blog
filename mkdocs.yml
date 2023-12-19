@@ -1,3 +1,30 @@
-site_name: Dodio's stuffs
+site_name: Dodio's BLOG
 theme:
+  language: en 
   name: material
+  palette:
+    primary: blue grey
+    accent: red
+  font:
+    text: EB Garamond
+    code: Roboto Mono
+  logo: images/logo.png
+  favicon: images/favicon.png
+  features:
+    - navigation.tabs
+plugins:
+  - blog
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dodio12138
+    - icon: fontawesome/brands/dribbble
+      link: https://dribbble.com/Dodio12138
+    - icon: fontawesome/brands/instagram
+      link: https://www.instagram.com/dodio_12138/
+    - icon: fontawesome/solid/envelope
+      link: mailto:<dodio12138@gmail.com>
+    - icon: fontawesome/solid/pager
+      link: https://dodio12138.github.io/
+  generator: false
+copyright: Copyright &copy; 2023 Levy Zhang
