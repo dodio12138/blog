@@ -5,3 +5,7 @@
   :root {
     --md-text-font: "Tango"; 
   }
+
+  .md-post__action {
+    display: none;
+  }
