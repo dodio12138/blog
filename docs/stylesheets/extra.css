@@ -1,11 +1,21 @@
 @font-face {
-    font-family: "Tango";
-    src: "../font/TangoPsychedelia.ttf";
-  }
-  :root {
-    --md-text-font: "Tango"; 
-  }
+  font-family: 'English';
+  src: url("../font/TangoPsychedelia.ttf");
+}
 
-  .md-post__action {
-    display: none;
-  }
+@font-face {    
+  font-family: 'Chinese'; 
+  src: url("../font/Hiragino\ Sans\ GB\ W3.otf"); 
+}
+
+:root {
+  /*--md-text-font: "English";*/
+}
+
+body {
+  --md-text-font-family: var(--md-text-font,_),"Chinese",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+}
+
+.md-post__action {
+  display: none;
+}

@@ -31,5 +31,5 @@ extra:
       link: https://dodio12138.github.io/
   generator: false
 copyright: There's nothing left here. Copyright &copy; 2023 Levy Zhang
-# extra_css:
-#   - stylesheets/extra.css
+extra_css:
+  - stylesheets/extra.css
