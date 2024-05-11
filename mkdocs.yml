@@ -21,15 +21,23 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/dodio12138
+    - icon: fontawesome/brands/bilibili
+      link: https://space.bilibili.com/12027943
+    - icon: fontawesome/brands/deviantart
+      link: https://www.deviantart.com/dodio12138
     - icon: fontawesome/brands/dribbble
       link: https://dribbble.com/Dodio12138
     - icon: fontawesome/brands/instagram
       link: https://www.instagram.com/dodio_12138/
+    - icon: fontawesome/brands/itch-io
+      link: https://dodio12138.itch.io/
+    - icon: fontawesome/brands/steam
+      link: https://steamcommunity.com/profiles/76561198806925309/
     - icon: fontawesome/solid/envelope
       link: mailto:<dodio12138@gmail.com>
     - icon: fontawesome/solid/pager
       link: https://dodio12138.github.io/
   generator: false
-copyright: There's nothing left here. Copyright &copy; 2023 Levy Zhang
+copyright: There's nothing left here. Copyright &copy; 2024 Levy Zhang
 extra_css:
   - stylesheets/extra.css
