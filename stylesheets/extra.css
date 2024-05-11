@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'English';
+  src: url("../font/TangoPsychedelia.ttf");
+}
+
+@font-face {    
+  font-family: 'Chinese'; 
+  src: url("../font/HiraginoSansGBW3.otf"); 
+}
+
+/* :root {
+  --md-text-font: "English";
+} */
+
+body {
+  --md-text-font-family: var(--md-text-font,_),"Chinese",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+}
+
+.md-post__action {
+  display: none;
+}
