@@ -1,0 +1,50 @@
+{#- Win98 外观：页面本身就是一个最大化的窗口（标题栏 + 菜单栏 + 内容 + 状态栏），没有任务栏和桌面。
+    在主页 Levy Browser 里打开时（iframe），外面已经有窗口标题栏，这里就隐藏自己的标题栏（见 extrahead）。 -#}
+{% extends "base.html" %}
+
+{% set desktop_url = "https://dodio12138.github.io/" %}
+
+{% block extrahead %}
+    <script>
+        // 被嵌在主页的 Levy Browser 里时，去掉重复的标题栏
+        if (window.self !== window.top) document.documentElement.classList.add("w98-framed");
+    </script>
+    <meta name="theme-color" content="#008080">
+{% endblock %}
+
+{% block header %}
+    <header class="md-header w98-header" data-md-component="header">
+        <div class="w98-titlebar">
+            <img class="w98-titlebar__icon" src="{{ 'win98/icons/blog-16.png' | url }}" alt="" width="16" height="16">
+            <span class="w98-titlebar__title">
+                {%- if page.meta and page.meta.title and not page.is_homepage -%}
+                    {{ page.meta.title }} - {{ config.site_name }}
+                {%- elif page.title and not page.is_homepage -%}
+                    {{ page.title | striptags }} - {{ config.site_name }}
+                {%- else -%}
+                    {{ config.site_name }}
+                {%- endif -%}
+            </span>
+            <span class="w98-titlebar__button" aria-hidden="true"><span class="w98-glyph w98-glyph--min"></span></span>
+            <span class="w98-titlebar__button" aria-hidden="true"><span class="w98-glyph w98-glyph--max"></span></span>
+            <a class="w98-titlebar__button w98-titlebar__button--close" href="{{ desktop_url }}" title="Close - back to Levy's desktop" aria-label="Back to Levy's desktop"><span class="w98-glyph w98-glyph--close"></span></a>
+        </div>
+        <nav class="w98-menubar" aria-label="{{ lang.t('header') }}">
+            <label class="w98-menubar__drawer" for="__drawer" title="Menu">{% include ".icons/material/menu.svg" %}</label>
+            {% if "navigation.tabs" in features %}
+                {% include "partials/tabs.html" %}
+            {% endif %}
+            {% if "material/search" in config.plugins %}
+                {% set search = config.plugins["material/search"] | attr("config") %}
+                {% if search.enabled %}
+                    <label class="w98-menubar__search" for="__search" title="{{ lang.t('search.placeholder') }}">{% include ".icons/material/magnify.svg" %}</label>
+                    {% include "partials/search.html" %}
+                {% endif %}
+            {% endif %}
+        </nav>
+    </header>
+{% endblock %}
+
+{#- 选项卡已经放进上面的菜单栏 -#}
+{% block tabs %}{% endblock %}
+

@@ -1,20 +1,17 @@
 site_name: Dodio's BLOG
+site_url: https://dodio12138.github.io/blog/
 theme:
-  language: en 
+  language: en
   name: material
-  palette:
-    primary: blue grey
-    accent: red
-  font:
-    text: EB Garamond
-    # text: Edu SA Beginner
-    # text: Vollkorn
-    code: Roboto Mono
-  logo: images/logo.png
-  favicon: images/favicon.png
+  custom_dir: overrides
+  # Win98 外观：颜色和字体都在 docs/stylesheets/win98.css 里，不加载 Google Fonts
+  font: false
+  logo: win98/icons/blog-32.png
+  favicon: win98/icons/blog-32.png
   features:
     - navigation.tabs
 plugins:
+  - search
   - blog:
       post_url_format: "{slug}"
 extra:
@@ -41,6 +38,6 @@ extra:
       link: https://levyflight.uk/
       name: Lévy Flight Studio · my game studio
   generator: false
-copyright: There's nothing left here. Copyright &copy; 2024 Levy Zhang
+copyright: There's nothing left here. Copyright &copy; 2023-2026 Levy Zhang
 extra_css:
-  - stylesheets/extra.css
+  - stylesheets/win98.css

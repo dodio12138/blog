@@ -1,0 +1,1017 @@
+/* Win98 外观，和主页 dodio12138.github.io 的桌面统一。
+   变量、立体边框、字体照搬主页的 src/css/base.css；改主页配色时这里同步改。
+   页面结构见 overrides/main.html：一个最大化的窗口，标题栏 + 菜单栏（选项卡）+ 凹陷内容区 + 状态栏。 */
+
+/* ---------- 字体 ---------- */
+
+@font-face {
+    font-family: W95FA;
+    src: url("../win98/fonts/w95fa.woff2") format("woff2");
+    font-display: swap;
+}
+
+/* Fusion Pixel Font 12px 简体（SIL OFL，许可见 win98/fonts/fusion-pixel-license/），
+   GB2312 子集；页面出现中文时才下载。size-adjust 让 14px 正文里的汉字正好是 12px 像素网格。 */
+@font-face {
+    font-family: "Fusion Pixel ZH";
+    src: url("../win98/fonts/fusion-pixel-zh.woff2") format("woff2");
+    unicode-range: U+2E80-2FDF, U+3000-303F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+2014, U+2018-201D, U+2026, U+00B7;
+    size-adjust: 85.7143%;
+    font-display: swap;
+}
+
+/* ---------- 变量 ---------- */
+
+:root {
+    --ButtonFace: rgb(192, 192, 192);
+    --ButtonLight: rgb(223, 223, 223);
+    --ButtonHilight: rgb(255, 255, 255);
+    --ButtonShadow: rgb(128, 128, 128);
+    --ButtonDkShadow: rgb(0, 0, 0);
+    --ButtonText: rgb(0, 0, 0);
+    --GrayText: rgb(128, 128, 128);
+    --ActiveTitle: rgb(0, 0, 128);
+    --GradientActiveTitle: rgb(16, 132, 208);
+    --TitleText: rgb(255, 255, 255);
+    --Highlight: rgb(0, 0, 128);
+    --HighlightText: rgb(255, 255, 255);
+    --Desktop: rgb(0, 128, 128);
+    --InfoWindow: rgb(255, 255, 225);
+    --Window: rgb(240, 248, 255);
+    --WindowText: rgb(0, 0, 0);
+    --LinkText: rgb(0, 0, 238);
+    --VisitedText: rgb(85, 26, 139);
+
+    --bevel-raised:
+        inset -1px -1px var(--ButtonDkShadow),
+        inset 1px 1px var(--ButtonHilight),
+        inset -2px -2px var(--ButtonShadow),
+        inset 2px 2px var(--ButtonLight);
+    --bevel-pressed:
+        inset -1px -1px var(--ButtonHilight),
+        inset 1px 1px var(--ButtonDkShadow),
+        inset -2px -2px var(--ButtonLight),
+        inset 2px 2px var(--ButtonShadow);
+    --bevel-window:
+        inset -1px -1px var(--ButtonDkShadow),
+        inset 1px 1px var(--ButtonLight),
+        inset -2px -2px var(--ButtonShadow),
+        inset 2px 2px var(--ButtonHilight);
+    --bevel-sunken:
+        inset -1px -1px var(--ButtonHilight),
+        inset 1px 1px var(--ButtonShadow),
+        inset -2px -2px var(--ButtonLight),
+        inset 2px 2px var(--ButtonDkShadow);
+    --bevel-shallow:
+        inset -1px -1px var(--ButtonHilight),
+        inset 1px 1px var(--ButtonShadow);
+    --etch-h: inset 0 1px var(--ButtonShadow), inset 0 -1px var(--ButtonHilight);
+    --groupbox: inset 1px 1px var(--ButtonShadow), inset -1px -1px var(--ButtonShadow), 1px 1px var(--ButtonHilight), inset 2px 2px var(--ButtonHilight);
+    --dither: radial-gradient(#9f9f9f 1px, transparent 1px) 0 0 / 4px 4px;
+    --title-gradient: linear-gradient(to right, var(--ActiveTitle), var(--GradientActiveTitle));
+
+    --font-ui: W95FA, "Fusion Pixel ZH", "MS Sans Serif", Arial, sans-serif;
+    --font-mono: "Courier New", Courier, "Fusion Pixel ZH", monospace;
+    --font-size-ui: 14px;
+
+    --cursor-default: url("../win98/cursors/arrow.cur"), default;
+    --cursor-pointer: url("../win98/cursors/Cursor_15.cur"), pointer;
+
+    --titlebar-height: 18px;
+    --menubar-height: 22px;
+    /* 3px 窗口边框 + 标题栏 + 2px 间隔 + 菜单栏 + 3px */
+    --header-height: calc(3px + var(--titlebar-height) + 2px + var(--menubar-height) + 3px);
+}
+
+/* 在主页 Levy Browser 里：外面已有标题栏 */
+.w98-framed {
+    --header-height: calc(2px + var(--menubar-height) + 3px);
+}
+
+/* Material 的配色变量全部换成 98 系统色（只有浅色方案） */
+:root,
+[data-md-color-scheme="default"] {
+    --md-default-bg-color: var(--ButtonFace);
+    --md-default-fg-color: var(--ButtonText);
+    --md-default-fg-color--light: var(--GrayText);
+    --md-default-fg-color--lighter: var(--ButtonShadow);
+    --md-default-fg-color--lightest: var(--ButtonLight);
+    --md-primary-fg-color: var(--ActiveTitle);
+    --md-primary-fg-color--light: var(--GradientActiveTitle);
+    --md-primary-fg-color--dark: var(--ActiveTitle);
+    --md-primary-bg-color: var(--TitleText);
+    --md-accent-fg-color: var(--Highlight);
+    --md-typeset-color: var(--WindowText);
+    --md-typeset-a-color: var(--LinkText);
+    --md-code-bg-color: var(--ButtonHilight);
+    --md-code-fg-color: var(--WindowText);
+    --md-text-font-family: var(--font-ui);
+    --md-code-font-family: var(--font-mono);
+}
+
+/* ---------- 全局 ---------- */
+
+body {
+    font-family: var(--font-ui);
+    cursor: var(--cursor-default);
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    background: var(--ButtonFace);
+}
+
+a,
+label,
+button,
+summary {
+    cursor: var(--cursor-pointer);
+}
+
+/* 整个视口就是一个最大化的窗口：外框画在最上层，不挡点击 */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    box-shadow: var(--bevel-window);
+}
+
+.w98-framed body::before {
+    display: none;
+}
+
+/* 像素图标 1:1 显示 */
+.w98-titlebar__icon {
+    image-rendering: pixelated;
+    flex-shrink: 0;
+}
+
+::selection {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+}
+
+/* 滚动条（Chrome / Safari / Edge）；Firefox 退而用系统色 */
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: url("../win98/ui/scroll-track.png");
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--ButtonFace);
+    box-shadow: var(--bevel-raised);
+    border: none;
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--ButtonFace);
+}
+
+::-webkit-scrollbar-button:single-button {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement { background-image: url("../win98/ui/scroll-up.png"); }
+::-webkit-scrollbar-button:single-button:vertical:decrement:active { background-image: url("../win98/ui/scroll-up-pressed.png"); }
+::-webkit-scrollbar-button:single-button:vertical:increment { background-image: url("../win98/ui/scroll-down.png"); }
+::-webkit-scrollbar-button:single-button:vertical:increment:active { background-image: url("../win98/ui/scroll-down-pressed.png"); }
+::-webkit-scrollbar-button:single-button:horizontal:decrement { background-image: url("../win98/ui/scroll-left.png"); }
+::-webkit-scrollbar-button:single-button:horizontal:decrement:active { background-image: url("../win98/ui/scroll-left-pressed.png"); }
+::-webkit-scrollbar-button:single-button:horizontal:increment { background-image: url("../win98/ui/scroll-right.png"); }
+::-webkit-scrollbar-button:single-button:horizontal:increment:active { background-image: url("../win98/ui/scroll-right-pressed.png"); }
+
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-color: var(--ButtonFace) var(--ButtonLight);
+    }
+}
+
+/* ---------- 顶部：标题栏 + 菜单栏 ---------- */
+
+.md-header.w98-header {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    height: var(--header-height);
+    padding: 3px 3px 0;
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+    box-shadow: none;
+}
+
+.w98-framed .md-header.w98-header {
+    padding-top: 2px;
+}
+
+.w98-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: var(--titlebar-height);
+    margin-bottom: 2px;
+    padding: 0 2px;
+    background: var(--title-gradient);
+    color: var(--TitleText);
+    font-weight: bold;
+    font-size: var(--font-size-ui);
+    line-height: var(--titlebar-height);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.w98-framed .w98-titlebar {
+    display: none;
+}
+
+.w98-titlebar__title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.w98-titlebar__button {
+    display: grid;
+    place-items: center;
+    width: 16px;
+    height: 14px;
+    flex-shrink: 0;
+    background: var(--ButtonFace);
+    box-shadow: var(--bevel-raised);
+}
+
+.w98-titlebar__button--close {
+    margin-left: 2px;
+}
+
+.w98-titlebar__button--close:active {
+    box-shadow: var(--bevel-pressed);
+}
+
+.w98-glyph {
+    width: 12px;
+    height: 10px;
+    background: no-repeat center;
+}
+
+.w98-glyph--min { background-image: url("../win98/ui/minimize.svg"); background-position: bottom; }
+.w98-glyph--max { background-image: url("../win98/ui/maximize.svg"); }
+.w98-glyph--close { background-image: url("../win98/ui/close.svg"); }
+
+.w98-menubar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: var(--menubar-height);
+    font-size: var(--font-size-ui);
+}
+
+/* 选项卡在菜单栏里显示为菜单项（任何宽度都显示） */
+.w98-menubar .md-tabs,
+.w98-menubar .md-tabs[hidden] {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: none;
+    color: var(--ButtonText);
+    pointer-events: auto;
+}
+
+.w98-menubar .md-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.w98-menubar .md-grid {
+    max-width: none;
+    margin: 0;
+}
+
+.w98-menubar .md-tabs__list {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.w98-menubar .md-tabs__item {
+    display: inline-block;
+    height: auto;
+    padding: 0;
+}
+
+.w98-menubar .md-tabs__link,
+.w98-menubar .md-tabs[hidden] .md-tabs__link {
+    display: block;
+    margin: 0;
+    padding: 0 8px;
+    font-size: var(--font-size-ui);
+    line-height: 20px;
+    color: var(--ButtonText);
+    opacity: 1;
+    transform: none;
+    transition: none;
+}
+
+.w98-menubar .md-tabs__link:hover,
+.w98-menubar .md-tabs__link:focus-visible {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+}
+
+/* 当前页：像按下的菜单 */
+.w98-menubar .md-tabs__item--active .md-tabs__link {
+    box-shadow: var(--bevel-shallow);
+    color: var(--ButtonText);
+    background: none;
+}
+
+.w98-menubar__drawer,
+.w98-menubar__search {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 20px;
+    flex-shrink: 0;
+    box-shadow: var(--bevel-raised);
+}
+
+.w98-menubar__drawer:active,
+.w98-menubar__search:active {
+    box-shadow: var(--bevel-pressed);
+}
+
+.w98-menubar__drawer svg,
+.w98-menubar__search svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+/* 抽屉按钮只在侧边栏变成抽屉时出现；搜索按钮只在窄屏出现（宽屏直接显示输入框） */
+@media screen and (min-width: 76.25em) {
+    .w98-menubar__drawer {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 60em) {
+    .w98-menubar__search {
+        display: none;
+    }
+}
+
+/* ---------- 搜索 ---------- */
+
+@media screen and (min-width: 60em) {
+    .w98-menubar .md-search {
+        padding: 0;
+    }
+
+    .w98-menubar .md-search__inner {
+        width: 220px;
+        float: none;
+    }
+
+    [data-md-toggle="search"]:checked ~ .md-header .w98-menubar .md-search__inner {
+        width: 320px;
+    }
+
+    .w98-menubar .md-search__form {
+        height: 20px;
+        border-radius: 0;
+        background: var(--ButtonHilight);
+        box-shadow: var(--bevel-sunken);
+    }
+
+    .w98-menubar .md-search__form:hover {
+        background: var(--ButtonHilight);
+    }
+
+    [data-md-toggle="search"]:checked ~ .md-header .w98-menubar .md-search__form {
+        border-radius: 0;
+        background: var(--ButtonHilight);
+        box-shadow: var(--bevel-sunken);
+    }
+
+    .w98-menubar .md-search__input {
+        height: 20px;
+        padding-left: 24px;
+        font: inherit;
+        font-size: var(--font-size-ui);
+        color: var(--WindowText);
+        background: none;
+    }
+
+    .w98-menubar .md-search__input::placeholder {
+        color: var(--GrayText);
+    }
+
+    .w98-menubar .md-search__icon {
+        top: 2px;
+        left: 4px;
+        width: 16px;
+        height: 16px;
+        color: var(--ButtonText);
+    }
+
+    .w98-menubar .md-search__icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .w98-menubar .md-search__options {
+        top: 2px;
+        right: 4px;
+    }
+
+    .w98-menubar .md-search__output {
+        top: 22px;
+        border-radius: 0;
+        background: var(--ButtonFace);
+        box-shadow: var(--bevel-window);
+    }
+
+    .md-search__overlay {
+        display: none;
+    }
+}
+
+.md-search__scrollwrap {
+    background: var(--Window);
+}
+
+.md-search-result__meta {
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+    font-size: var(--font-size-ui);
+    box-shadow: var(--etch-h);
+}
+
+.md-search-result__link:hover,
+.md-search-result__link:focus,
+.md-search-result__more > summary:hover > div {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+}
+
+.md-search-result__link:hover *,
+.md-search-result__link:focus * {
+    color: var(--HighlightText);
+}
+
+.md-search-result mark {
+    background: var(--InfoWindow);
+    color: inherit;
+}
+
+/* ---------- 主体：凹陷的内容区 ---------- */
+
+/* 内容区撑满窗口高度（短页面也不露出下面的灰色） */
+.md-main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.md-main__inner {
+    flex: 1;
+    height: auto;
+    margin-top: 0;
+    padding: 4px 4px 0;
+}
+
+.md-content {
+    margin-bottom: 4px;
+    background: var(--Window);
+    color: var(--WindowText);
+    box-shadow: var(--bevel-sunken);
+}
+
+.md-content__inner {
+    margin: 0;
+    padding: 16px 20px 24px;
+}
+
+.md-content__inner::before {
+    display: none;
+}
+
+@media screen and (min-width: 76.25em) {
+    .md-sidebar {
+        top: var(--header-height);
+    }
+}
+
+.md-sidebar__scrollwrap {
+    scrollbar-gutter: auto;
+}
+
+/* ---------- 侧边栏导航（宽屏是左右两栏，窄屏是抽屉） ---------- */
+
+.md-nav {
+    font-size: var(--font-size-ui);
+    line-height: 16px;
+}
+
+.md-nav__title {
+    font-weight: bold;
+    color: var(--ButtonText);
+}
+
+.md-nav__link,
+.md-nav__item .md-nav__link--active,
+.md-nav__item .md-nav__link--active code {
+    color: var(--ButtonText);
+}
+
+.md-nav__link {
+    margin-top: 2px;
+    padding: 1px 4px;
+}
+
+.md-nav__link:hover,
+.md-nav__link:focus-visible,
+.md-nav__link[for]:hover {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+}
+
+.md-nav__link--active,
+.md-nav__item .md-nav__link--active {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+}
+
+@media screen and (max-width: 76.234375em) {
+    /* 抽屉：一个弹出的 98 窗口 */
+    .md-sidebar--primary {
+        background: var(--ButtonFace);
+        box-shadow: var(--bevel-window);
+    }
+
+    .md-nav--primary .md-nav__title {
+        height: auto;
+        padding: 2px 4px 2px 24px;
+        background: var(--title-gradient);
+        color: var(--TitleText);
+        line-height: 18px;
+    }
+
+    .md-nav--primary .md-nav__title .md-nav__icon {
+        top: 1px;
+        left: 4px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .md-nav--primary .md-nav__title .md-logo,
+    .md-nav--primary .md-nav__title ~ .md-nav__source {
+        display: none;
+    }
+
+    .md-nav--primary .md-nav__item {
+        border-top: none;
+    }
+
+    .md-nav--primary .md-nav__link {
+        padding: 6px 8px;
+    }
+
+    .md-nav__source {
+        display: none;
+    }
+
+    .md-overlay {
+        background: rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* ---------- 正文排版 ---------- */
+
+/* 14px 是像素字体清晰的字号（中文 12px 网格），标题用 2 倍 */
+.md-typeset {
+    font-size: var(--font-size-ui);
+    line-height: 22px;
+}
+
+.md-typeset h1 {
+    margin: 0 0 16px;
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: normal;
+    color: var(--WindowText);
+    letter-spacing: 0;
+}
+
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+    font-size: var(--font-size-ui);
+    line-height: 22px;
+    font-weight: bold;
+    letter-spacing: 0;
+}
+
+.md-typeset h2 {
+    margin: 24px 0 8px;
+    padding-bottom: 4px;
+    box-shadow: 0 2px 0 -1px var(--ButtonShadow), 0 2px 0 0 var(--ButtonHilight);
+}
+
+.md-typeset h3 {
+    margin: 16px 0 4px;
+}
+
+.md-typeset a {
+    color: var(--LinkText);
+    text-decoration: underline;
+}
+
+.md-typeset a:visited {
+    color: var(--VisitedText);
+}
+
+.md-typeset a:hover,
+.md-typeset a:focus {
+    color: rgb(238, 0, 0);
+}
+
+.md-typeset a.headerlink {
+    text-decoration: none;
+}
+
+.md-typeset hr {
+    height: 2px;
+    margin: 16px 0;
+    border: none;
+    box-shadow: var(--etch-h);
+}
+
+.md-typeset blockquote {
+    padding-left: 12px;
+    border-left: 2px solid var(--ButtonShadow);
+    color: var(--WindowText);
+}
+
+.md-typeset code,
+.md-typeset kbd,
+.md-typeset pre {
+    font-size: 13px;
+    border-radius: 0;
+}
+
+.md-typeset code {
+    padding: 0 3px;
+    background: var(--ButtonFace);
+    color: var(--WindowText);
+}
+
+.md-typeset pre > code {
+    padding: 8px 10px;
+    background: var(--ButtonHilight);
+    box-shadow: var(--bevel-sunken);
+}
+
+.md-typeset table:not([class]) {
+    border: none;
+    border-radius: 0;
+    font-size: var(--font-size-ui);
+    background: var(--ButtonHilight);
+    box-shadow: var(--bevel-sunken);
+}
+
+.md-typeset table:not([class]) th {
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+    font-weight: normal;
+    box-shadow: var(--bevel-raised);
+}
+
+.md-typeset table:not([class]) td {
+    border-top: 1px solid var(--ButtonLight);
+}
+
+.md-typeset summary {
+    user-select: none;
+}
+
+/* 复选框（野餐清单等） */
+.md-typeset input[type="checkbox"] {
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    margin: 0 6px 0 0;
+    vertical-align: -2px;
+    background: var(--ButtonHilight) center no-repeat;
+    box-shadow: var(--bevel-sunken);
+}
+
+.md-typeset input[type="checkbox"]:checked {
+    background-image: url("../win98/ui/checkmark.svg");
+}
+
+.md-typeset .md-button {
+    padding: 3px 12px;
+    border: none;
+    border-radius: 0;
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+    box-shadow: var(--bevel-raised);
+    text-decoration: none;
+}
+
+.md-typeset .md-button:active {
+    box-shadow: var(--bevel-pressed);
+}
+
+/* ---------- 博客：文章列表、元信息、分页 ---------- */
+
+/* 每篇摘要是一个分组框 */
+.md-post--excerpt {
+    margin: 0 0 16px;
+    padding: 12px 14px 8px;
+    box-shadow: var(--groupbox);
+}
+
+.md-post--excerpt .md-post__header {
+    min-height: 0;
+}
+
+.md-post__content h2 {
+    margin-top: 4px;
+    box-shadow: none;
+}
+
+.md-post__action {
+    display: none;
+}
+
+.md-meta,
+.md-typeset .md-meta {
+    font-size: var(--font-size-ui);
+    color: var(--GrayText);
+}
+
+.md-meta__link {
+    color: var(--LinkText);
+}
+
+.md-pagination {
+    gap: 2px;
+    font-size: var(--font-size-ui);
+}
+
+.md-pagination__link {
+    min-width: 24px;
+    height: 23px;
+    border-radius: 0;
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+    box-shadow: var(--bevel-raised);
+}
+
+.md-pagination__current {
+    min-width: 24px;
+    height: 23px;
+    border-radius: 0;
+    background: var(--dither), var(--ButtonFace);
+    box-shadow: var(--bevel-pressed);
+}
+
+/* ---------- 回到顶部按钮 ---------- */
+
+.md-top {
+    bottom: 16px;
+    border-radius: 0;
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+    font-size: var(--font-size-ui);
+    box-shadow: var(--bevel-raised);
+}
+
+.md-top:hover,
+.md-top:focus {
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+}
+
+.md-top:active {
+    box-shadow: var(--bevel-pressed);
+}
+
+/* ---------- 底部状态栏 ---------- */
+
+.md-footer,
+.md-footer-meta {
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+}
+
+.md-footer-meta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+    max-width: none;
+    padding: 0 4px 4px;
+}
+
+.md-copyright {
+    flex: 1;
+    width: auto;
+    min-width: 200px;
+    margin: 0;
+    padding: 2px 6px;
+    font-size: var(--font-size-ui);
+    line-height: 18px;
+    color: var(--ButtonText);
+    box-shadow: var(--bevel-shallow);
+}
+
+.md-copyright__highlight {
+    color: inherit;
+}
+
+.md-social {
+    display: flex;
+    gap: 2px;
+    margin: 0;
+    padding: 2px 4px;
+    box-shadow: var(--bevel-shallow);
+}
+
+.md-footer-meta.md-typeset a.md-social__link,
+.md-social__link {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 18px;
+    margin: 0;
+    color: var(--ButtonText);
+}
+
+.md-social__link svg {
+    max-width: 14px;
+    max-height: 14px;
+    fill: currentColor;
+}
+
+.md-footer-meta.md-typeset a.md-social__link:hover,
+.md-footer-meta.md-typeset a.md-social__link:focus-visible {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+}
+
+/* AboutMe 页的小节标题：像一条窗口标题栏 */
+.md-typeset .w98-section {
+    margin: 16px 0 8px;
+    padding: 1px 6px;
+    background: var(--title-gradient);
+    color: var(--TitleText);
+    text-align: left;
+}
+
+/* 最大化窗口：内容区横向铺满，正文行宽限制在易读范围 */
+.md-main__inner.md-grid {
+    max-width: none;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.md-content__inner {
+    max-width: 860px;
+}
+
+/* 没有目录的页面（博客首页等）不留空白的右侧栏 */
+.md-sidebar--secondary:not(:has(.md-nav__link)) {
+    display: none;
+}
+
+/* 像素字体不做假斜体（中文会糊成一团） */
+.md-typeset {
+    font-synthesis-style: none;
+}
+
+/* 文章列表里的标题 */
+.md-post--excerpt .md-post__content h2 {
+    margin: 4px 0 8px;
+    padding: 0;
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: normal;
+}
+
+.md-post--excerpt .md-post__content h2 a {
+    color: var(--WindowText);
+    text-decoration: none;
+}
+
+.md-post--excerpt .md-post__content h2 a:hover {
+    color: var(--LinkText);
+    text-decoration: underline;
+}
+
+/* 折叠块（<details>）：一块凸起的 98 面板，不用 Material 的蓝色提示框 */
+.md-typeset details {
+    margin: 12px 0;
+    padding: 0 10px 8px;
+    border: none;
+    border-radius: 0;
+    background: var(--ButtonFace);
+    box-shadow: var(--bevel-window);
+    font-size: var(--font-size-ui);
+}
+
+.md-typeset details > summary {
+    margin: 0 -10px 8px;
+    padding: 6px 28px 6px 10px;
+    border-radius: 0;
+    background: none;
+    font-weight: bold;
+    box-shadow: 0 1px var(--ButtonShadow), 0 2px var(--ButtonHilight);
+}
+
+.md-typeset details > summary::before {
+    display: none;
+}
+
+.md-typeset details > summary::after {
+    top: 50%;
+    margin-top: -8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    background-color: var(--ButtonText);
+}
+
+.md-typeset details:not([open]) > summary {
+    margin-bottom: 0;
+    box-shadow: none;
+}
+
+.md-typeset details:not([open]) {
+    padding-bottom: 0;
+}
+
+/* Material 给折叠块最后一个元素加了下边距，会把最后一个复选框顶高 */
+.md-typeset details > input[type="checkbox"]:last-child {
+    margin-bottom: 0;
+}
+
+/* Material 用 [dir=ltr] 给标题留了图标位，图标已去掉 */
+[dir] .md-typeset details > summary {
+    padding-left: 10px;
+}
+
+/* 当前页在导航里：藏青底白字（Material 默认用链接蓝，压在藏青上看不清） */
+.md-sidebar .md-nav__item > .md-nav__link.md-nav__link--active,
+.md-sidebar .md-nav--primary .md-nav__item--active > .md-nav__link {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+}
+
+/* 菜单栏里的选项卡不要盖住窄屏的全屏搜索 */
+.w98-menubar .md-tabs {
+    position: static;
+    z-index: auto;
+}
+
+@media screen and (max-width: 59.984375em) {
+    .md-search__inner {
+        z-index: 7;
+    }
+
+    .md-search__form {
+        background: var(--ButtonFace);
+        box-shadow: inset 0 -1px var(--ButtonShadow);
+    }
+
+    .md-search__input {
+        font: inherit;
+        font-size: var(--font-size-ui);
+        color: var(--WindowText);
+    }
+
+    .md-search__input::placeholder {
+        color: var(--GrayText);
+    }
+}
+
+/* 标签：小凸起按钮，不要圆角胶囊 */
+.md-typeset .md-tag {
+    border-radius: 0;
+    background: var(--ButtonFace);
+    color: var(--ButtonText);
+    box-shadow: var(--bevel-raised);
+}
