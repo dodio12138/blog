@@ -66,6 +66,9 @@
     --bevel-shallow:
         inset -1px -1px var(--ButtonHilight),
         inset 1px 1px var(--ButtonShadow);
+    --bevel-thin-raised:
+        inset -1px -1px var(--ButtonShadow),
+        inset 1px 1px var(--ButtonHilight);
     --etch-h: inset 0 1px var(--ButtonShadow), inset 0 -1px var(--ButtonHilight);
     --groupbox: inset 1px 1px var(--ButtonShadow), inset -1px -1px var(--ButtonShadow), 1px 1px var(--ButtonHilight), inset 2px 2px var(--ButtonHilight);
     --dither: radial-gradient(#9f9f9f 1px, transparent 1px) 0 0 / 4px 4px;
@@ -101,7 +104,7 @@
     --md-primary-fg-color--light: var(--GradientActiveTitle);
     --md-primary-fg-color--dark: var(--ActiveTitle);
     --md-primary-bg-color: var(--TitleText);
-    --md-accent-fg-color: var(--Highlight);
+    --md-accent-fg-color: var(--LinkText);
     --md-typeset-color: var(--WindowText);
     --md-typeset-a-color: var(--LinkText);
     --md-code-bg-color: var(--ButtonHilight);
@@ -127,9 +130,9 @@ summary {
     cursor: var(--cursor-pointer);
 }
 
-/* 宽屏：博客是桌面青色背景上居中的一个窗口（窗口外框就是 body 的立体边，标题栏渐变跟着窗口宽度走）。
-   窄屏和嵌在 Levy Browser 里时铺满，不画外框。 */
-@media screen and (min-width: 60em) {
+/* 宽屏（不需要抽屉菜单时）：博客是桌面青色背景上居中的一个窗口，窗口外框就是 body 的立体边，
+   标题栏渐变跟着窗口宽度走。窄屏和嵌在 Levy Browser 里时铺满，不画外框。 */
+@media screen and (min-width: 76.25em) {
     html:not(.w98-framed) {
         background: var(--Desktop);
     }
@@ -1205,4 +1208,154 @@ summary {
 /* 28px 的文章标题本身够醒目，不加粗 */
 .md-post--excerpt .md-post__content.md-typeset h2 {
     text-shadow: none;
+}
+
+/* ---------- 悬停：浅色、文字始终可读 ---------- */
+/* 98 的做法：菜单栏项悬停只浮起一圈细边；树形导航悬停变成蓝色下划线（热跟踪）；
+   只有"当前项"是藏青底白字的选中色。 */
+
+.w98-menubar .md-tabs__link:hover,
+.w98-menubar .md-tabs__link:focus-visible {
+    background: none;
+    color: var(--ButtonText);
+    box-shadow: var(--bevel-thin-raised);
+}
+
+.w98-menubar .md-tabs__item--active .md-tabs__link,
+.w98-menubar .md-tabs__item--active .md-tabs__link:hover {
+    background: none;
+    color: var(--ButtonText);
+    box-shadow: var(--bevel-shallow);
+}
+
+.md-sidebar .md-nav__link:hover,
+.md-sidebar .md-nav__link:focus-visible,
+.md-sidebar .md-nav__link[for]:hover,
+.md-sidebar .md-nav__link[href]:hover {
+    background: none;
+    color: var(--LinkText);
+    text-decoration: underline;
+}
+
+.md-sidebar .md-nav__item .md-nav__link.md-nav__link--active,
+.md-sidebar .md-nav__item .md-nav__link.md-nav__link--active:hover,
+.md-sidebar .md-nav--primary .md-nav__item--active > .md-nav__link,
+.md-sidebar .md-nav--primary .md-nav__item--active > .md-nav__link:hover {
+    background: var(--Highlight);
+    color: var(--HighlightText);
+    text-decoration: none;
+}
+
+/* 目录里随滚动变化的当前小节：藏青色粗体，不整行涂色 */
+.md-sidebar .md-nav--secondary .md-nav__item .md-nav__link.md-nav__link--active {
+    background: none;
+    color: var(--ActiveTitle);
+    text-shadow: 1px 0 0 currentColor;
+}
+
+.md-search-result__link:hover,
+.md-search-result__link:focus,
+.md-search-result__more > summary:hover > div {
+    background: var(--ButtonLight);
+    color: var(--WindowText);
+}
+
+.md-search-result__link:hover *,
+.md-search-result__link:focus * {
+    color: inherit;
+}
+
+.md-footer-meta.md-typeset a.md-social__link:hover,
+.md-footer-meta.md-typeset a.md-social__link:focus-visible {
+    background: none;
+    color: var(--ButtonText);
+    box-shadow: var(--bevel-thin-raised);
+}
+
+/* ---------- 抽屉菜单（窄屏的侧边栏）：菜单栏下面弹出的一个小窗口 ---------- */
+
+@media screen and (max-width: 76.234375em) {
+    .md-sidebar--primary,
+    [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--primary {
+        top: var(--header-height);
+        /* Material 的抽屉每一级都是绝对定位，需要固定高度；内容多了会在里面滚动 */
+        height: min(180px, calc(100% - var(--header-height)));
+        padding: 3px;
+        background: var(--ButtonFace);
+        box-shadow: var(--bevel-window);
+        transition: none;
+    }
+
+    /* 收起时完全藏起来（没有滑动动画，也不留立体边在屏幕边上） */
+    .md-sidebar--primary {
+        visibility: hidden;
+    }
+
+    [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--primary {
+        visibility: visible;
+    }
+
+    .md-sidebar--primary .md-sidebar__scrollwrap {
+        inset: 3px;
+        margin: 0;
+    }
+
+    /* 不压暗页面，点空白处仍然能关闭 */
+    .md-overlay,
+    [data-md-toggle="drawer"]:checked ~ .md-overlay {
+        background: none;
+        transition: none;
+    }
+
+    .md-nav--primary,
+    .md-nav--primary .md-nav {
+        background: var(--ButtonFace);
+    }
+
+    .md-nav--primary .md-nav__title {
+        height: auto;
+        margin-bottom: 2px;
+        padding: 0 4px 0 24px;
+        line-height: 18px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: var(--title-gradient);
+        color: var(--TitleText);
+        box-shadow: none;
+    }
+
+    .md-nav--primary .md-nav__title .md-nav__icon {
+        top: 1px;
+        left: 3px;
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        color: var(--TitleText);
+    }
+
+    .md-nav--primary .md-nav__title .md-nav__icon::after {
+        background-color: currentColor;
+    }
+
+    .md-nav--primary .md-nav__list {
+        padding: 2px 0;
+    }
+
+    .md-nav--primary .md-nav__link {
+        margin: 0;
+        padding: 3px 8px;
+        line-height: 16px;
+    }
+
+    .md-nav--primary .md-nav__link .md-nav__icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* 抽屉打开时，菜单按钮保持按下 */
+[data-md-toggle="drawer"]:checked ~ .md-header .w98-menubar__drawer {
+    box-shadow: var(--bevel-pressed);
 }
