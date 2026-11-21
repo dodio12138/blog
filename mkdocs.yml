@@ -37,6 +37,9 @@ extra:
       link: mailto:<dodio12138@gmail.com>
     - icon: fontawesome/solid/pager
       link: https://dodio12138.github.io/
+    - icon: fontawesome/solid/gamepad
+      link: https://levyflight.uk/
+      name: Lévy Flight Studio · my game studio
   generator: false
 copyright: There's nothing left here. Copyright &copy; 2024 Levy Zhang
 extra_css:
